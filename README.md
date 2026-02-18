@@ -2,6 +2,9 @@
 
 > **Modern Real-Time Financial Dashboard** - A sophisticated, technical showcase of assets tracking with premium design and industrial-grade architecture.
 
+> [!NOTE]
+> Read this in: **[English](README.md)** | **[Português](README-pt.md)**
+
 [![Status](https://img.shields.io/badge/status-production--ready-success?style=for-the-badge)](https://github.com/rafamolina1/MarketPulseOfc)
 [![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-5.1.0-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev/)
