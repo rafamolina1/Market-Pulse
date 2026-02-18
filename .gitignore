@@ -37,3 +37,9 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Project specific useless files
+AGENTE.MD
+resize-icon.ps1
+directives/
+execution/

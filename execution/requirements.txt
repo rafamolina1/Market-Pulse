@@ -1,8 +1,0 @@
-# Core dependencies for execution scripts
-python-dotenv>=1.0.0
-
-# Add your project-specific dependencies below:
-# requests>=2.31.0
-# google-api-python-client>=2.100.0
-# pandas>=2.1.0
-# beautifulsoup4>=4.12.0
