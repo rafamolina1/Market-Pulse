@@ -1,0 +1,105 @@
+.error-boundary-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-color);
+    z-index: 9999;
+}
+
+.error-card {
+    background: rgba(26, 26, 29, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+}
+
+.error-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.error-card h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #ff4d4d;
+}
+
+.error-card p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.error-details {
+    margin-bottom: 2rem;
+    text-align: left;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+.error-details details summary {
+    cursor: pointer;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.error-details p {
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: #ff8080;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    white-space: pre-wrap;
+}
+
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn-reload,
+.btn-reset {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-reload {
+    background: var(--primary-color, #4361ee);
+    color: white;
+}
+
+.btn-reload:hover {
+    background: var(--primary-hover, #3a50d6);
+    transform: translateY(-2px);
+}
+
+.btn-reset {
+    background: rgba(255, 77, 77, 0.1);
+    color: #ff4d4d;
+    border: 1px solid rgba(255, 77, 77, 0.2);
+}
+
+.btn-reset:hover {
+    background: rgba(255, 77, 77, 0.2);
+    transform: translateY(-2px);
+}

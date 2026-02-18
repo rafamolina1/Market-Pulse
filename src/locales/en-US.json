@@ -1,0 +1,103 @@
+{
+    "header": {
+        "title": "MarketPulse",
+        "subtitle": "Financial Dashboard - Currencies, Cryptos & Commodities",
+        "subtitleRealtime": "Real-time Financial Dashboard"
+    },
+    "buttons": {
+        "settings": "Settings",
+        "converter": "Converter",
+        "portfolio": "Portfolio",
+        "save": "Save",
+        "cancel": "Cancel",
+        "selectAll": "Select All",
+        "clear": "Clear",
+        "close": "Close",
+        "edit": "Edit",
+        "export": "Export",
+        "exportCSV": "Download CSV",
+        "exportPDF": "Download PDF"
+    },
+    "sections": {
+        "currencies": "International Currencies",
+        "cryptos": "Cryptocurrencies",
+        "commodities": "Commodities"
+    },
+    "settings": {
+        "title": "Dashboard Settings",
+        "theme": "Theme",
+        "language": "Language",
+        "dark": "Dark",
+        "light": "Light",
+        "portuguese": "Português",
+        "english": "English"
+    },
+    "converter": {
+        "title": "Currency Converter",
+        "amount": "Amount",
+        "from": "From",
+        "to": "To",
+        "rate": "Exchange Rate",
+        "result": "Converted Amount",
+        "enterAmount": "Enter amount"
+    },
+    "chart": {
+        "title": "Historical Chart",
+        "loading": "Loading data...",
+        "periods": {
+            "1D": "1 Day",
+            "7D": "7 Days",
+            "30D": "30 Days",
+            "1Y": "1 Year",
+            "ALL": "All"
+        }
+    },
+    "indicators": {
+        "realtime": "REAL-TIME",
+        "live": "LIVE"
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "Error loading data",
+        "noData": "No data available"
+    },
+    "portfolio": {
+        "title": "My Portfolio",
+        "totalValue": "Total Value",
+        "totalPL": "Total Profit/Loss",
+        "addAsset": "Add Asset",
+        "amount": "Amount",
+        "exchangeRate": "Exchange Rate",
+        "assetType": "Type",
+        "asset": "Asset",
+        "quantity": "Quantity",
+        "purchasePrice": "Purchase Price",
+        "currentPrice": "Current Price",
+        "value": "Value",
+        "profitLoss": "Profit/Loss",
+        "edit": "Edit",
+        "delete": "Delete",
+        "noAssets": "No assets in portfolio",
+        "selectType": "Select type",
+        "selectAsset": "Select asset",
+        "currency": "Currency",
+        "crypto": "Cryptocurrency",
+        "commodity": "Commodity",
+        "displayCurrency": "Display in:",
+        "totalAllocated": "Total Allocated",
+        "currentValue": "Current Value",
+        "allocation": "Allocation"
+    },
+    "alerts": {
+        "title": "Price Alerts",
+        "setAlert": "Set Alert",
+        "targetPrice": "Target Price ($)",
+        "condition": "Condition",
+        "above": "Above",
+        "below": "Below",
+        "create": "Create",
+        "noAlerts": "No active alerts",
+        "created": "Alert created successfully!",
+        "triggered": "Alert Triggered"
+    }
+}

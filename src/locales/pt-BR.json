@@ -1,0 +1,103 @@
+{
+    "header": {
+        "title": "MarketPulse",
+        "subtitle": "Dashboard Financeiro - Moedas, Criptomoedas & Commodities",
+        "subtitleRealtime": "Dashboard Financeiro em Tempo Real"
+    },
+    "buttons": {
+        "settings": "Configurar",
+        "converter": "Converter",
+        "portfolio": "Portfólio",
+        "save": "Salvar",
+        "cancel": "Cancelar",
+        "selectAll": "Selecionar Todas",
+        "clear": "Limpar",
+        "close": "Fechar",
+        "edit": "Editar",
+        "export": "Exportar",
+        "exportCSV": "Baixar CSV",
+        "exportPDF": "Baixar PDF"
+    },
+    "sections": {
+        "currencies": "Moedas Internacionais",
+        "cryptos": "Criptomoedas",
+        "commodities": "Commodities"
+    },
+    "settings": {
+        "title": "Configurações do Dashboard",
+        "theme": "Tema",
+        "language": "Idioma",
+        "dark": "Dark",
+        "light": "Light",
+        "portuguese": "Português",
+        "english": "English"
+    },
+    "converter": {
+        "title": "Conversor de Moedas",
+        "amount": "Valor",
+        "from": "De",
+        "to": "Para",
+        "rate": "Taxa de Câmbio",
+        "result": "Valor Convertido",
+        "enterAmount": "Digite o valor"
+    },
+    "chart": {
+        "title": "Gráfico Histórico",
+        "loading": "Carregando dados...",
+        "periods": {
+            "1D": "1 Dia",
+            "7D": "7 Dias",
+            "30D": "30 Dias",
+            "1Y": "1 Ano",
+            "ALL": "Tudo"
+        }
+    },
+    "indicators": {
+        "realtime": "TEMPO REAL",
+        "live": "AO VIVO"
+    },
+    "common": {
+        "loading": "Carregando...",
+        "error": "Erro ao carregar dados",
+        "noData": "Sem dados disponíveis"
+    },
+    "portfolio": {
+        "title": "Meu Portfólio",
+        "totalValue": "Valor Total",
+        "totalPL": "Lucro/Prejuízo Total",
+        "addAsset": "Adicionar Ativo",
+        "amount": "Valor Alocado",
+        "exchangeRate": "Taxa de Câmbio",
+        "assetType": "Tipo",
+        "asset": "Ativo",
+        "quantity": "Quantidade",
+        "purchasePrice": "Preço de Compra",
+        "currentPrice": "Preço Atual",
+        "value": "Valor",
+        "profitLoss": "Lucro/Prejuízo",
+        "edit": "Editar",
+        "delete": "Excluir",
+        "noAssets": "Nenhum ativo no portfólio",
+        "selectType": "Selecione o tipo",
+        "selectAsset": "Selecione o ativo",
+        "currency": "Moeda",
+        "crypto": "Criptomoeda",
+        "commodity": "Commodity",
+        "displayCurrency": "Exibir em:",
+        "totalAllocated": "Total Alocado",
+        "currentValue": "Valor Atual",
+        "allocation": "Alocação"
+    },
+    "alerts": {
+        "title": "Alertas de Preço",
+        "setAlert": "Criar Alerta",
+        "targetPrice": "Preço Alvo ($)",
+        "condition": "Condição",
+        "above": "Acima de",
+        "below": "Abaixo de",
+        "create": "Criar",
+        "noAlerts": "Nenhum alerta ativo",
+        "created": "Alerta criado com sucesso!",
+        "triggered": "Alerta Disparado"
+    }
+}

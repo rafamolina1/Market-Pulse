@@ -1,0 +1,74 @@
+/* Time Range Selector Styles */
+.time-range-selector {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: rgba(18, 18, 24, 0.6);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 127, 62, 0.2);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.range-button {
+    padding: 0.5rem 1.25rem;
+    background: transparent;
+    border: 1.5px solid rgba(255, 127, 62, 0.3);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.range-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 127, 62, 0.1);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+}
+
+.range-button:hover::before {
+    width: 200px;
+    height: 200px;
+}
+
+.range-button:hover {
+    border-color: rgba(255, 160, 107, 0.6);
+    color: var(--tron-orange-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 127, 62, 0.2);
+}
+
+.range-button.active {
+    background: linear-gradient(135deg, rgba(255, 127, 62, 0.2), rgba(255, 160, 107, 0.1));
+    border-color: var(--tron-orange-bright);
+    color: var(--tron-orange-bright);
+    box-shadow:
+        0 0 15px rgba(255, 127, 62, 0.4),
+        inset 0 0 10px rgba(255, 127, 62, 0.1);
+}
+
+.range-button:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+    .time-range-selector {
+        gap: 0.375rem;
+    }
+
+    .range-button {
+        padding: 0.375rem 1rem;
+        font-size: 0.8125rem;
+    }
+}

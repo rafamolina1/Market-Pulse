@@ -1,0 +1,430 @@
+/* Portfolio Modal Styles */
+.portfolio-modal-content {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    max-width: 1000px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-lg);
+    animation: slideUp 0.3s ease-out;
+}
+
+.portfolio-body {
+    padding: var(--spacing-lg);
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Portfolio Summary */
+.portfolio-summary {
+    margin-bottom: var(--spacing-xl);
+}
+
+.summary-card {
+    background: linear-gradient(135deg, rgba(255, 127, 62, 0.15) 0%, rgba(255, 160, 107, 0.08) 100%);
+    border: 2px solid var(--tron-orange);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255, 127, 62, 0.3);
+}
+
+.summary-label {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.summary-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--tron-orange-bright);
+    margin-bottom: var(--spacing-sm);
+}
+
+.summary-pl {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.summary-pl.positive {
+    color: #4ade80;
+}
+
+.summary-pl.negative {
+    color: #f87171;
+}
+
+/* Add Asset Button */
+.btn-add-asset {
+    width: 100%;
+    padding: var(--spacing-md);
+    background: var(--gradient-accent);
+    border: none;
+    border-radius: var(--radius-md);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    margin-bottom: var(--spacing-lg);
+}
+
+.btn-add-asset:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 127, 62, 0.4);
+}
+
+/* Add Asset Form */
+.add-asset-form {
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.add-asset-form h3 {
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text-primary);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.form-group select,
+.form-group input {
+    padding: 0.75rem;
+    background: var(--color-bg-primary-translucent);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    transition: all var(--transition-fast);
+    width: 100%;
+}
+
+/* Fix for invisible text in some browsers/OS */
+.form-group select option {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+}
+
+.form-group select:focus,
+.form-group input:focus {
+    outline: none;
+    border-color: var(--tron-orange);
+    box-shadow: 0 0 10px rgba(255, 127, 62, 0.3);
+}
+
+.helper-text {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+/* Holdings List */
+.holdings-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-xl);
+    color: var(--color-text-muted);
+    font-size: 1.125rem;
+}
+
+/* Holding Card */
+.holding-card {
+    padding: var(--spacing-md);
+}
+
+.holding-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-md);
+}
+
+.holding-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.holding-info h4 {
+    margin: 0;
+    font-size: 1.125rem;
+    color: var(--color-text-primary);
+}
+
+.holding-type-badge {
+    padding: 0.25rem 0.75rem;
+    background: rgba(255, 127, 62, 0.2);
+    border: 1px solid var(--tron-orange);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    color: var(--tron-orange-bright);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-delete-small {
+    background: transparent;
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    color: #f87171;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: 1rem;
+}
+
+.btn-delete-small:hover {
+    background: rgba(248, 113, 113, 0.1);
+    border-color: #f87171;
+}
+
+/* Holding Details */
+.holding-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--glass-border);
+    opacity: 0.8;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-row.purchase {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+}
+
+.detail-row.pl {
+    font-size: 1rem;
+    font-weight: 600;
+    padding-top: var(--spacing-sm);
+}
+
+.detail-row.pl.positive {
+    color: #4ade80;
+}
+
+.detail-row.pl.negative {
+    color: #f87171;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .portfolio-modal-content {
+        max-height: 95vh;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-value {
+        font-size: 2rem;
+    }
+
+    .summary-pl {
+        font-size: 1rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
+}
+
+/* Currency Toggle */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.currency-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--color-bg-tertiary);
+    padding: 0.25rem;
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+}
+
+.toggle-label {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    padding-left: 0.5rem;
+}
+
+.toggle-buttons {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.toggle-btn {
+    background: transparent;
+    border: none;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.toggle-btn:hover {
+    color: var(--color-text-primary);
+}
+
+.toggle-btn.active {
+    background: var(--tron-orange);
+    color: white;
+    box-shadow: 0 2px 4px rgba(255, 107, 0, 0.2);
+}
+
+.modal-title {
+    margin: 0;
+    font-size: 1.5rem;
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.add-asset-form {
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--glass-border);
+    background: var(--color-bg-tertiary);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+
+/* Edit Button */
+.holding-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-edit-small {
+    background: transparent;
+    border: 1px solid rgba(255, 127, 62, 0.3);
+    color: var(--tron-orange-bright);
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: 1rem;
+}
+
+.btn-edit-small:hover {
+    background: rgba(255, 127, 62, 0.1);
+    border-color: var(--tron-orange);
+}
+
+
+/* Export Buttons */
+.export-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-right: 1rem;
+}
+
+.btn-export {
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--glass-border);
+    color: var(--color-text-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-export:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+}
+
+
+/* Alert Button */
+.btn-alert-small {
+    background: transparent;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    color: #ffd700;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: 1rem;
+}
+
+.btn-alert-small:hover {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: #ffd700;
+}

@@ -1,0 +1,39 @@
+# Environment variables
+.env
+
+# Node modules and build output
+node_modules/
+dist/
+
+# Temporary files
+.tmp/
+*.tmp
+
+# Google OAuth credentials
+credentials.json
+token.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

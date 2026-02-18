@@ -1,0 +1,158 @@
+/* Chart Modal Styles */
+.chart-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+    padding: 1rem;
+}
+
+.chart-modal {
+    background: var(--color-bg-secondary);
+    border: 2px solid rgba(255, 127, 62, 0.3);
+    border-radius: var(--radius-xl);
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(255, 127, 62, 0.2),
+        inset 0 0 30px rgba(255, 127, 62, 0.05);
+    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chart-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 127, 62, 0.2);
+}
+
+.chart-modal-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0;
+    background: linear-gradient(135deg, #FF7F3E 0%, #FFA06B 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.chart-modal-subtitle {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin: 0.25rem 0 0;
+}
+
+.chart-modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all var(--transition-base);
+}
+
+.chart-modal-close:hover {
+    background: rgba(255, 127, 62, 0.1);
+    color: var(--tron-orange-bright);
+    transform: rotate(90deg);
+}
+
+.chart-modal-content {
+    padding: 1.5rem;
+}
+
+.chart-loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    gap: 1rem;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 127, 62, 0.2);
+    border-top-color: var(--tron-orange);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .chart-modal {
+        max-width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+
+    .chart-modal-header {
+        padding: 1rem;
+    }
+
+    .chart-modal-title {
+        font-size: 1.5rem;
+    }
+
+    .chart-modal-content {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-modal-overlay {
+        padding: 0;
+    }
+
+    .chart-modal {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+
+    .chart-modal-header {
+        padding: 0.75rem;
+    }
+
+    .chart-modal-title {
+        font-size: 1.25rem;
+    }
+}
