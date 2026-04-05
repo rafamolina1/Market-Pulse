@@ -10,6 +10,10 @@
 [![Vite](https://img.shields.io/badge/Vite-5.1.0-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev/)
 [![PWA](https://img.shields.io/badge/PWA-Enabled-blueviolet?style=for-the-badge)](https://vite-pwa-org.netlify.app/)
 
+## Dashboard Preview
+
+![MarketPulse dashboard preview](public/marketpulse.png)
+
 ## What It Is
 
 MarketPulse tracks currencies, cryptocurrencies and commodities in a single interface. The project combines real-time updates, historical charts, portfolio tracking, exporting, multilingual support and installable PWA behavior.

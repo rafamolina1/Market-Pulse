@@ -10,6 +10,10 @@
 [![Vite](https://img.shields.io/badge/Vite-5.1.0-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev/)
 [![PWA](https://img.shields.io/badge/PWA-Habilitado-blueviolet?style=for-the-badge)](https://vite-pwa-org.netlify.app/)
 
+## Preview do Dashboard
+
+![Preview do dashboard do MarketPulse](public/marketpulse.png)
+
 ## O Que É
 
 O MarketPulse acompanha moedas, criptomoedas e commodities em uma única interface. O projeto reúne atualização em tempo real, gráficos históricos, gerenciamento de portfólio, exportação, múltiplos idiomas e comportamento de PWA.
