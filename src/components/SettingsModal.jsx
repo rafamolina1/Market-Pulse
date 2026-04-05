@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../contexts/ThemeContext';
 import { AVAILABLE_CURRENCIES } from '../services/currencyService';
@@ -7,8 +7,12 @@ import { AVAILABLE_COMMODITIES } from '../services/commodityService';
 
 const SettingsModal = ({ isOpen, onClose, preferences, onSave }) => {
     const [localPreferences, setLocalPreferences] = useState(preferences);
-    const { theme, toggleTheme, isDark } = useTheme();
+    const { setThemeMode, isDark } = useTheme();
     const { t, i18n } = useTranslation();
+
+    useEffect(() => {
+        setLocalPreferences(preferences);
+    }, [preferences, isOpen]);
 
     const currentLanguage = i18n.language;
 
@@ -89,14 +93,14 @@ const SettingsModal = ({ isOpen, onClose, preferences, onSave }) => {
                         <div className="theme-toggle-container">
                             <button
                                 className={`theme-toggle-btn ${isDark ? 'active' : ''}`}
-                                onClick={toggleTheme}
+                                onClick={() => setThemeMode('dark')}
                             >
                                 <span className="theme-icon">🌙</span>
                                 <span className="theme-label">{t('settings.dark')}</span>
                             </button>
                             <button
                                 className={`theme-toggle-btn ${!isDark ? 'active' : ''}`}
-                                onClick={toggleTheme}
+                                onClick={() => setThemeMode('light')}
                             >
                                 <span className="theme-icon">☀️</span>
                                 <span className="theme-label">{t('settings.light')}</span>
@@ -218,7 +222,7 @@ const SettingsModal = ({ isOpen, onClose, preferences, onSave }) => {
                         {t('buttons.cancel')}
                     </button>
                     <button className="btn-save" onClick={handleSave}>
-                        💾 {t('buttons.save')} Preferências
+                        💾 {t('settings.savePreferences')}
                     </button>
                 </div>
             </div>

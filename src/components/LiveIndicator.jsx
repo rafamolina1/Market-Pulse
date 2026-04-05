@@ -1,14 +1,17 @@
 import React from 'react';
-import { formatDate } from '../utils/formatters';
+import { useTranslation } from 'react-i18next';
+import { formatDateTime } from '../utils/formatters';
 
 const LiveIndicator = React.memo(({ lastUpdate, isRealTime = false }) => {
+    const { t, i18n } = useTranslation();
+
     return (
         <div className="live-indicator">
             <div className="live-dot"></div>
-            <span>{isRealTime ? 'REAL-TIME' : 'LIVE'}</span>
+            <span>{isRealTime ? t('indicators.realtime') : t('indicators.live')}</span>
             {lastUpdate && (
                 <span className="last-update">
-                    {formatDate(lastUpdate)}
+                    {formatDateTime(lastUpdate, i18n.language)}
                 </span>
             )}
         </div>

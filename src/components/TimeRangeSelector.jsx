@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './TimeRangeSelector.css';
 
 const TIME_RANGES = [
@@ -10,13 +11,18 @@ const TIME_RANGES = [
 ];
 
 const TimeRangeSelector = ({ selectedRange, onRangeChange }) => {
+    const { t } = useTranslation();
+
     return (
-        <div className="time-range-selector">
+        <div className="time-range-selector" role="tablist" aria-label={t('chart.rangeSelector')}>
             {TIME_RANGES.map(({ value, label }) => (
                 <button
                     key={value}
                     className={`range-button ${selectedRange === value ? 'active' : ''}`}
                     onClick={() => onRangeChange(value)}
+                    role="tab"
+                    aria-selected={selectedRange === value}
+                    aria-label={t(`chart.periods.${value}`)}
                 >
                     {label}
                 </button>

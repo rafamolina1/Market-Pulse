@@ -1,4 +1,13 @@
 <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <rect width="512" height="512" fill="#1a1a1a"/>
-  <path d="M100 256 L200 256 L250 150 L300 350 L350 256 L412 256" stroke="#00ff00" stroke-width="20" fill="none"/>
+  <rect width="512" height="512" rx="112" fill="#09111f"/>
+  <defs>
+    <linearGradient id="pulse" x1="96" y1="116" x2="412" y2="392" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#69D2C6"/>
+      <stop offset="0.48" stop-color="#FFB26B"/>
+      <stop offset="1" stop-color="#FF8743"/>
+    </linearGradient>
+  </defs>
+  <path d="M88 312H168L224 176L286 360L340 252H424" fill="none" stroke="url(#pulse)" stroke-linecap="round" stroke-linejoin="round" stroke-width="28"/>
+  <circle cx="224" cy="176" r="14" fill="#FFDFBF"/>
+  <circle cx="286" cy="360" r="14" fill="#FFDFBF"/>
 </svg>

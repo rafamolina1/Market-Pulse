@@ -7,11 +7,11 @@ const SplashScreen = ({ onFinish }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setFade(true);
-        }, 2000);
+        }, 1200);
 
         const finishTimer = setTimeout(() => {
             onFinish();
-        }, 2500);
+        }, 1550);
 
         return () => {
             clearTimeout(timer);
@@ -22,9 +22,11 @@ const SplashScreen = ({ onFinish }) => {
     return (
         <div className={`splash-screen ${fade ? 'fade-out' : ''}`}>
             <div className="splash-content">
-                <img src="/pwa-192x192.png" alt="MarketPulse Logo" className="splash-logo" />
+                <div className="splash-logo-shell">
+                    <img src="/pwa-192x192.png" alt="MarketPulse Logo" className="splash-logo" />
+                </div>
                 <h1 className="splash-title">Market<span className="splash-highlight">Pulse</span></h1>
-                <p className="splash-subtitle">Your Assets. Real Time.</p>
+                <p className="splash-subtitle">Precision dashboard for currencies, crypto and commodities.</p>
             </div>
         </div>
     );

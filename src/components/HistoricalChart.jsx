@@ -1,37 +1,40 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     Chart as ChartJS,
     CategoryScale,
+    Decimation,
+    Filler,
+    Legend,
     LinearScale,
     PointElement,
     LineElement,
     Title,
     Tooltip,
-    Legend,
-    Filler
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import './HistoricalChart.css';
 
 ChartJS.register(
     CategoryScale,
+    Decimation,
+    Filler,
+    Legend,
     LinearScale,
     PointElement,
     LineElement,
     Title,
-    Tooltip,
-    Legend,
-    Filler
+    Tooltip
 );
 
-const HistoricalChart = ({ data, assetName, assetSymbol, timeRange }) => {
-    const chartRef = useRef(null);
+const HistoricalChart = React.memo(({ data, assetName, assetSymbol, timeRange }) => {
+    const { t, i18n } = useTranslation();
 
     if (!data || !data.labels || data.labels.length === 0) {
         return (
             <div className="chart-container chart-loading">
                 <div className="loading-skeleton"></div>
-                <p>Loading chart data...</p>
+                <p>{t('chart.loading')}</p>
             </div>
         );
     }
@@ -40,15 +43,15 @@ const HistoricalChart = ({ data, assetName, assetSymbol, timeRange }) => {
         if (!(date instanceof Date)) date = new Date(date);
 
         if (timeRange === '1D') {
-            return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            return date.toLocaleTimeString(i18n.language, { hour: '2-digit', minute: '2-digit' });
         } else if (timeRange === '7D' || timeRange === '30D') {
-            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            return date.toLocaleDateString(i18n.language, { month: 'short', day: 'numeric' });
         } else {
-            return date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+            return date.toLocaleDateString(i18n.language, { month: 'short', year: '2-digit' });
         }
     };
 
-    const chartData = {
+    const chartData = useMemo(() => ({
         labels: data.labels.map(formatLabel),
         datasets: [
             {
@@ -73,11 +76,12 @@ const HistoricalChart = ({ data, assetName, assetSymbol, timeRange }) => {
                 tension: 0.4,
             },
         ],
-    };
+    }), [assetSymbol, data.labels, data.prices, timeRange]);
 
-    const options = {
+    const options = useMemo(() => ({
         responsive: true,
         maintainAspectRatio: false,
+        normalized: true,
         interaction: {
             mode: 'index',
             intersect: false,
@@ -88,7 +92,7 @@ const HistoricalChart = ({ data, assetName, assetSymbol, timeRange }) => {
             },
             title: {
                 display: true,
-                text: `${assetName} - ${timeRange}`,
+                text: `${assetName} - ${t(`chart.periods.${timeRange}`)}`,
                 color: '#FFFFFF',
                 font: {
                     size: 16,
@@ -116,7 +120,7 @@ const HistoricalChart = ({ data, assetName, assetSymbol, timeRange }) => {
                             label += ': ';
                         }
                         if (context.parsed.y !== null) {
-                            label += new Intl.NumberFormat('en-US', {
+                            label += new Intl.NumberFormat(i18n.language, {
                                 style: 'currency',
                                 currency: 'USD',
                                 minimumFractionDigits: 2,
@@ -127,6 +131,11 @@ const HistoricalChart = ({ data, assetName, assetSymbol, timeRange }) => {
                     }
                 }
             },
+            decimation: {
+                enabled: data.prices.length > 120,
+                algorithm: 'min-max',
+                samples: 120
+            }
         },
         scales: {
             x: {
@@ -150,7 +159,7 @@ const HistoricalChart = ({ data, assetName, assetSymbol, timeRange }) => {
                 ticks: {
                     color: '#CC9977',
                     callback: function (value) {
-                        return new Intl.NumberFormat('en-US', {
+                        return new Intl.NumberFormat(i18n.language, {
                             style: 'currency',
                             currency: 'USD',
                             minimumFractionDigits: 0,
@@ -165,16 +174,16 @@ const HistoricalChart = ({ data, assetName, assetSymbol, timeRange }) => {
             },
         },
         animation: {
-            duration: 200,
+            duration: 90,
             easing: 'easeOutQuart',
         },
-    };
+    }), [assetName, data.prices.length, i18n.language, t, timeRange]);
 
     return (
         <div className="chart-container">
-            <Line ref={chartRef} data={chartData} options={options} />
+            <Line data={chartData} options={options} />
         </div>
     );
-};
+});
 
 export default HistoricalChart;

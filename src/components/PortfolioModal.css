@@ -1,7 +1,7 @@
 /* Portfolio Modal Styles */
 .portfolio-modal-content {
-    background: var(--color-bg-secondary);
-    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    border: 1px solid rgba(255, 178, 107, 0.2);
     border-radius: var(--radius-xl);
     max-width: 1000px;
     width: 100%;
@@ -10,6 +10,16 @@
     flex-direction: column;
     box-shadow: var(--shadow-lg);
     animation: slideUp 0.3s ease-out;
+    overflow: hidden;
+    position: relative;
+}
+
+.portfolio-modal-content::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent 44%);
+    pointer-events: none;
 }
 
 .portfolio-body {
@@ -23,13 +33,36 @@
     margin-bottom: var(--spacing-xl);
 }
 
+.portfolio-feedback {
+    margin-bottom: var(--spacing-md);
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 178, 107, 0.16);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.portfolio-feedback.success {
+    background: rgba(110, 231, 200, 0.12);
+    color: var(--color-positive);
+    border-color: rgba(110, 231, 200, 0.28);
+}
+
+.portfolio-feedback.error {
+    background: rgba(255, 139, 109, 0.12);
+    color: var(--color-negative);
+    border-color: rgba(255, 139, 109, 0.28);
+}
+
 .summary-card {
-    background: linear-gradient(135deg, rgba(255, 127, 62, 0.15) 0%, rgba(255, 160, 107, 0.08) 100%);
-    border: 2px solid var(--tron-orange);
+    background:
+        radial-gradient(circle at top right, rgba(255, 135, 67, 0.2), transparent 42%),
+        linear-gradient(135deg, rgba(255, 127, 62, 0.14) 0%, rgba(255, 160, 107, 0.06) 100%);
+    border: 1px solid rgba(255, 178, 107, 0.24);
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    text-align: center;
-    box-shadow: 0 0 30px rgba(255, 127, 62, 0.3);
+    text-align: left;
+    box-shadow: 0 18px 40px rgba(255, 127, 62, 0.18);
 }
 
 .summary-label {
@@ -45,6 +78,7 @@
     font-weight: 800;
     color: var(--tron-orange-bright);
     margin-bottom: var(--spacing-sm);
+    letter-spacing: -0.05em;
 }
 
 .summary-pl {
@@ -67,7 +101,7 @@
     background: var(--gradient-accent);
     border: none;
     border-radius: var(--radius-md);
-    color: white;
+    color: #09111f;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
@@ -167,6 +201,10 @@
 /* Holding Card */
 .holding-card {
     padding: var(--spacing-md);
+    border: 1px solid rgba(255, 178, 107, 0.12);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)),
+        rgba(10, 17, 29, 0.42);
 }
 
 .holding-header {
@@ -228,7 +266,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 0;
-    border-bottom: 1px solid var(--glass-border);
+    border-bottom: 1px solid rgba(255, 178, 107, 0.1);
     opacity: 0.8;
 }
 
@@ -301,7 +339,7 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    background: var(--color-bg-tertiary);
+    background: rgba(10, 17, 29, 0.42);
     padding: 0.25rem;
     border-radius: 8px;
     border: 1px solid var(--glass-border);
@@ -335,8 +373,8 @@
 }
 
 .toggle-btn.active {
-    background: var(--tron-orange);
-    color: white;
+    background: var(--gradient-primary);
+    color: #09111f;
     box-shadow: 0 2px 4px rgba(255, 107, 0, 0.2);
 }
 
@@ -395,8 +433,8 @@
 }
 
 .btn-export {
-    background: var(--color-bg-tertiary);
-    border: 1px solid var(--glass-border);
+    background: rgba(10, 17, 29, 0.46);
+    border: 1px solid rgba(255, 178, 107, 0.14);
     color: var(--color-text-secondary);
     padding: 0.25rem 0.75rem;
     border-radius: 6px;
@@ -406,9 +444,9 @@
 }
 
 .btn-export:hover {
-    background: rgba(255, 255, 255, 0.2);
-    color: var(--color-text-primary);
-    border-color: var(--color-text-primary);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-highlight);
+    border-color: rgba(255, 178, 107, 0.28);
 }
 
 

@@ -5,7 +5,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background:
+        radial-gradient(circle at top, rgba(255, 135, 67, 0.16), transparent 28%),
+        rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
@@ -16,8 +18,8 @@
 }
 
 .chart-modal {
-    background: var(--color-bg-secondary);
-    border: 2px solid rgba(255, 127, 62, 0.3);
+    background: var(--glass-bg);
+    border: 1px solid rgba(255, 178, 107, 0.22);
     border-radius: var(--radius-xl);
     max-width: 900px;
     width: 100%;
@@ -26,8 +28,18 @@
     box-shadow:
         0 20px 60px rgba(0, 0, 0, 0.5),
         0 0 40px rgba(255, 127, 62, 0.2),
-        inset 0 0 30px rgba(255, 127, 62, 0.05);
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
     animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+}
+
+.chart-modal::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent 44%);
+    pointer-events: none;
 }
 
 @keyframes slideUp {
@@ -47,7 +59,7 @@
     justify-content: space-between;
     align-items: flex-start;
     padding: 1.5rem;
-    border-bottom: 1px solid rgba(255, 127, 62, 0.2);
+    border-bottom: 1px solid rgba(255, 178, 107, 0.14);
 }
 
 .chart-modal-title {
@@ -90,6 +102,8 @@
 
 .chart-modal-content {
     padding: 1.5rem;
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 480px;
 }
 
 .chart-loading-state {

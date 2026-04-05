@@ -1,10 +1,24 @@
+import i18n from '../i18n';
 import { calculateAssetPL } from './portfolioService';
 
+const formatterCache = new Map();
+
+const getFormatter = (currency) => {
+    const locale = currency === 'BRL' ? 'pt-BR' : 'en-US';
+    const key = `${locale}:${currency}`;
+
+    if (!formatterCache.has(key)) {
+        formatterCache.set(key, new Intl.NumberFormat(locale, {
+            style: 'currency',
+            currency
+        }));
+    }
+
+    return formatterCache.get(key);
+};
+
 const formatCurrency = (value, currency) => {
-    return new Intl.NumberFormat(currency === 'BRL' ? 'pt-BR' : 'en-US', {
-        style: 'currency',
-        currency: currency
-    }).format(value);
+    return getFormatter(currency).format(value);
 };
 
 const getCurrentPriceForAsset = (holding, currentPrices) => {
@@ -69,6 +83,12 @@ export const exportToCSV = (portfolio, currentPrices, displayCurrency = 'USD', b
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    return {
+        ok: true,
+        message: i18n.t('portfolio.exportCsvSuccess')
+    };
 };
 
 export const exportToPDF = async (portfolio, currentPrices, displayCurrency = 'USD', brlRate = 1) => {
@@ -77,12 +97,13 @@ export const exportToPDF = async (portfolio, currentPrices, displayCurrency = 'U
         const autoTable = (await import('jspdf-autotable')).default;
 
         const doc = new jsPDF();
+        const now = new Date();
 
         doc.setFontSize(20);
         doc.text('MarketPulse Portfolio Report', 14, 22);
 
         doc.setFontSize(11);
-        doc.text(`Generated on: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`, 14, 30);
+        doc.text(`Generated on: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`, 14, 30);
         doc.text(`Currency: ${displayCurrency}`, 14, 36);
 
         const headers = [['Type', 'Asset', 'Qty', 'Buy Price', 'Cur. Price', 'Value', 'P&L', 'P&L %']];
@@ -100,10 +121,11 @@ export const exportToPDF = async (portfolio, currentPrices, displayCurrency = 'U
             const currentPriceVal = (currentPrice || 0) * rate;
             const currentValue = pl.currentValue * rate;
             const profit = pl.profit * rate;
+            const invested = pl.purchaseValue * rate;
 
             totalValue += currentValue;
             totalProfit += profit;
-            totalInvested += (holding.purchasePrice * holding.quantity * rate);
+            totalInvested += invested;
 
             return [
                 holding.type.toUpperCase(),
@@ -134,8 +156,15 @@ export const exportToPDF = async (portfolio, currentPrices, displayCurrency = 'U
         });
 
         doc.save(`portfolio_report_${new Date().toISOString().split('T')[0]}.pdf`);
+        return {
+            ok: true,
+            message: i18n.t('portfolio.exportPdfSuccess')
+        };
     } catch (error) {
         console.error('Error generating PDF:', error);
-        alert('Erro ao gerar PDF: ' + error.message);
+        return {
+            ok: false,
+            message: i18n.t('portfolio.exportError')
+        };
     }
 };

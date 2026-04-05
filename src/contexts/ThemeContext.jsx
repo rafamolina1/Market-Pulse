@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 const ThemeContext = createContext();
 
@@ -12,28 +12,36 @@ export const useTheme = () => {
 
 export const ThemeProvider = ({ children }) => {
     const [theme, setTheme] = useState(() => {
-        // Load theme from localStorage or default to 'dark'
+        if (typeof window === 'undefined') return 'dark';
         const savedTheme = localStorage.getItem('marketpulse-theme');
         return savedTheme || 'dark';
     });
 
     useEffect(() => {
-        // Apply theme to document
         document.documentElement.setAttribute('data-theme', theme);
-        // Save to localStorage
         localStorage.setItem('marketpulse-theme', theme);
+
+        const metaTheme = document.querySelector('meta[name="theme-color"]');
+        if (metaTheme) {
+            metaTheme.setAttribute('content', theme === 'dark' ? '#09111f' : '#f6f2eb');
+        }
     }, [theme]);
 
-    const toggleTheme = () => {
+    const toggleTheme = useCallback(() => {
         setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
-    };
+    }, []);
 
-    const value = {
+    const setThemeMode = useCallback((nextTheme) => {
+        setTheme(nextTheme);
+    }, []);
+
+    const value = useMemo(() => ({
         theme,
         toggleTheme,
+        setThemeMode,
         isDark: theme === 'dark',
         isLight: theme === 'light'
-    };
+    }), [theme, toggleTheme, setThemeMode]);
 
     return (
         <ThemeContext.Provider value={value}>

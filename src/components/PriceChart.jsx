@@ -1,30 +1,33 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     Chart as ChartJS,
     CategoryScale,
+    Decimation,
+    Filler,
     LinearScale,
     PointElement,
     LineElement,
     Title,
     Tooltip,
-    Filler,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
 ChartJS.register(
     CategoryScale,
+    Decimation,
+    Filler,
     LinearScale,
     PointElement,
     LineElement,
     Title,
-    Tooltip,
-    Filler
+    Tooltip
 );
 
-const PriceChart = ({ data, color = '#06b6d4', label = 'Price' }) => {
-    const chartRef = useRef(null);
+const PriceChart = React.memo(({ data, color = '#06b6d4', label = 'Price' }) => {
+    const { i18n } = useTranslation();
 
-    const chartData = {
+    const chartData = useMemo(() => ({
         labels: data.map((_, index) => index),
         datasets: [
             {
@@ -42,14 +45,20 @@ const PriceChart = ({ data, color = '#06b6d4', label = 'Price' }) => {
                 pointHoverBorderWidth: 2,
             },
         ],
-    };
+    }), [color, data, label]);
 
-    const options = {
+    const options = useMemo(() => ({
         responsive: true,
         maintainAspectRatio: false,
+        normalized: true,
         plugins: {
             legend: {
                 display: false,
+            },
+            decimation: {
+                enabled: data.length > 80,
+                algorithm: 'min-max',
+                samples: 80
             },
             tooltip: {
                 mode: 'index',
@@ -63,7 +72,14 @@ const PriceChart = ({ data, color = '#06b6d4', label = 'Price' }) => {
                 displayColors: false,
                 callbacks: {
                     label: function (context) {
-                        return `${label}: $${context.parsed.y.toFixed(2)}`;
+                        const formatted = new Intl.NumberFormat(i18n.language, {
+                            style: 'currency',
+                            currency: 'USD',
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }).format(context.parsed.y);
+
+                        return `${label}: ${formatted}`;
                     }
                 }
             },
@@ -82,23 +98,16 @@ const PriceChart = ({ data, color = '#06b6d4', label = 'Price' }) => {
             intersect: false,
         },
         animation: {
-            duration: 750,
-            easing: 'easeInOutQuart',
+            duration: 180,
+            easing: 'easeOutQuart',
         },
-    };
-
-    useEffect(() => {
-        const chart = chartRef.current;
-        if (chart) {
-            chart.update('active');
-        }
-    }, [data]);
+    }), [data.length, i18n.language, label]);
 
     return (
         <div className="chart-container">
-            <Line ref={chartRef} data={chartData} options={options} />
+            <Line data={chartData} options={options} />
         </div>
     );
-};
+});
 
 export default PriceChart;

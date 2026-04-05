@@ -1,17 +1,19 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { formatNumber } from '../utils/formatters';
 
 const CurrencyCard = React.memo(({ pair, rate, change, flag, onChartClick }) => {
+    const { t, i18n } = useTranslation();
     const isPositive = change >= 0;
 
     return (
         <div className="glass-card currency-card">
             <div className="card-header">
-                <div>
-                    <div className="card-title">Currency</div>
+                <div className="card-header-main">
+                    <div className="card-title">{t('cards.currency.title')}</div>
                     <div className="card-pair">{pair}</div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <div className="card-header-actions">
                     <div className="card-icon" style={{ color: 'var(--color-cyan)' }}>
                         {flag || '💱'}
                     </div>
@@ -19,7 +21,8 @@ const CurrencyCard = React.memo(({ pair, rate, change, flag, onChartClick }) => 
                         <button
                             className="chart-button"
                             onClick={onChartClick}
-                            title="View chart"
+                            title={t('chart.openAsset', { asset: pair })}
+                            aria-label={t('chart.openAsset', { asset: pair })}
                         >
                             📈
                         </button>
@@ -28,7 +31,7 @@ const CurrencyCard = React.memo(({ pair, rate, change, flag, onChartClick }) => 
             </div>
 
             <div className="card-price">
-                {formatNumber(rate, 4)}
+                {formatNumber(rate, 4, i18n.language)}
             </div>
 
             <div className={`card-change ${isPositive ? 'positive' : 'negative'}`}>
@@ -37,8 +40,18 @@ const CurrencyCard = React.memo(({ pair, rate, change, flag, onChartClick }) => 
             </div>
 
             <div className="card-meta">
-                <span className="meta-label">24h Volume</span>
-                <span className="meta-value">High Activity</span>
+                <div>
+                    <span className="meta-label">{t('cards.currency.metaPrimaryLabel')}</span>
+                    <span className="meta-value">
+                        {isPositive ? t('cards.currency.metaPrimaryPositive') : t('cards.currency.metaPrimaryNegative')}
+                    </span>
+                </div>
+                <div>
+                    <span className="meta-label">{t('cards.currency.metaSecondaryLabel')}</span>
+                    <span className="meta-value">
+                        {isPositive ? t('cards.currency.metaSecondaryPositive') : t('cards.currency.metaSecondaryNegative')}
+                    </span>
+                </div>
             </div>
         </div>
     );

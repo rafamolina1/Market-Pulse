@@ -1,5 +1,9 @@
 import React from 'react';
+import i18n from '../i18n';
 import './ErrorBoundary.css';
+
+const STORAGE_PREFIXES = ['marketpulse-', 'marketpulse_'];
+const isDevelopment = typeof import.meta !== 'undefined' && import.meta.env?.DEV;
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -21,7 +25,9 @@ class ErrorBoundary extends React.Component {
     };
 
     handleReset = () => {
-        localStorage.clear();
+        Object.keys(localStorage)
+            .filter((key) => STORAGE_PREFIXES.some((prefix) => key.startsWith(prefix)))
+            .forEach((key) => localStorage.removeItem(key));
         window.location.reload();
     };
 
@@ -31,23 +37,29 @@ class ErrorBoundary extends React.Component {
                 <div className="error-boundary-container">
                     <div className="error-card glass-card">
                         <div className="error-icon">⚠️</div>
-                        <h2>Oops! Something went wrong.</h2>
-                        <p>We're sorry, but the application encountered an unexpected error.</p>
+                        <h2>{i18n.t('errorBoundary.title')}</h2>
+                        <p>{i18n.t('errorBoundary.description')}</p>
 
-                        <div className="error-details">
-                            <details>
-                                <summary>Error Details</summary>
-                                <p>{this.state.error && this.state.error.toString()}</p>
-                                <p>{this.state.errorInfo && this.state.errorInfo.componentStack}</p>
-                            </details>
-                        </div>
+                        {isDevelopment && (
+                            <div className="error-details">
+                                <details>
+                                    <summary>{i18n.t('errorBoundary.details')}</summary>
+                                    <p>{this.state.error && this.state.error.toString()}</p>
+                                    <p>{this.state.errorInfo && this.state.errorInfo.componentStack}</p>
+                                </details>
+                            </div>
+                        )}
 
                         <div className="error-actions">
                             <button className="btn-reload" onClick={this.handleReload}>
-                                🔄 Reload Page
+                                🔄 {i18n.t('errorBoundary.reload')}
                             </button>
-                            <button className="btn-reset" onClick={this.handleReset} title="Clear data and reload">
-                                🗑️ Hard Reset
+                            <button
+                                className="btn-reset"
+                                onClick={this.handleReset}
+                                title={i18n.t('errorBoundary.resetTitle')}
+                            >
+                                🗑️ {i18n.t('errorBoundary.reset')}
                             </button>
                         </div>
                     </div>

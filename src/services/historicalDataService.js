@@ -5,11 +5,18 @@
 
 const CACHE_PREFIX = 'marketpulse_history_';
 const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+const memoryCache = new Map();
+const pendingRequests = new Map();
 
 /**
  * Get cached data if available and not expired
  */
 function getCachedData(key) {
+    const inMemory = memoryCache.get(key);
+    if (inMemory && Date.now() - inMemory.timestamp <= CACHE_TTL) {
+        return inMemory.data;
+    }
+
     try {
         const cached = localStorage.getItem(CACHE_PREFIX + key);
         if (!cached) return null;
@@ -17,9 +24,11 @@ function getCachedData(key) {
         const { data, timestamp } = JSON.parse(cached);
         if (Date.now() - timestamp > CACHE_TTL) {
             localStorage.removeItem(CACHE_PREFIX + key);
+            memoryCache.delete(key);
             return null;
         }
 
+        memoryCache.set(key, { data, timestamp });
         return data;
     } catch (error) {
         console.error('[Cache] Error reading cache:', error);
@@ -31,6 +40,11 @@ function getCachedData(key) {
  * Set cached data
  */
 function setCachedData(key, data) {
+    memoryCache.set(key, {
+        data,
+        timestamp: Date.now()
+    });
+
     try {
         localStorage.setItem(CACHE_PREFIX + key, JSON.stringify({
             data,
@@ -55,35 +69,51 @@ function getDaysFromRange(timeRange) {
     return rangeMap[timeRange] || 30;
 }
 
+async function getOrCreateRequest(cacheKey, fetcher) {
+    const cached = getCachedData(cacheKey);
+    if (cached) return cached;
+
+    if (pendingRequests.has(cacheKey)) {
+        return pendingRequests.get(cacheKey);
+    }
+
+    const request = (async () => {
+        try {
+            const data = await fetcher();
+            setCachedData(cacheKey, data);
+            return data;
+        } finally {
+            pendingRequests.delete(cacheKey);
+        }
+    })();
+
+    pendingRequests.set(cacheKey, request);
+    return request;
+}
+
 /**
  * Fetch cryptocurrency historical data from CoinGecko
  */
 export async function fetchCryptoHistory(cryptoId, timeRange = '30D') {
     const cacheKey = `crypto_${cryptoId}_${timeRange}`;
-    const cached = getCachedData(cacheKey);
-    if (cached) return cached;
-
     try {
-        const days = getDaysFromRange(timeRange);
-        const url = `https://api.coingecko.com/api/v3/coins/${cryptoId}/market_chart?vs_currency=usd&days=${days}`;
+        return await getOrCreateRequest(cacheKey, async () => {
+            const days = getDaysFromRange(timeRange);
+            const url = `https://api.coingecko.com/api/v3/coins/${cryptoId}/market_chart?vs_currency=usd&days=${days}`;
 
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Failed to fetch crypto history');
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Failed to fetch crypto history');
 
-        const data = await response.json();
+            const data = await response.json();
 
-        // Format data for Chart.js
-        const formatted = {
-            labels: data.prices.map(([timestamp]) => new Date(timestamp)),
-            prices: data.prices.map(([, price]) => price),
-            volumes: data.total_volumes?.map(([, volume]) => volume) || []
-        };
-
-        setCachedData(cacheKey, formatted);
-        return formatted;
+            return {
+                labels: data.prices.map(([timestamp]) => new Date(timestamp)),
+                prices: data.prices.map(([, price]) => price),
+                volumes: data.total_volumes?.map(([, volume]) => volume) || []
+            };
+        });
     } catch (error) {
         console.error('[History] Error fetching crypto data:', error);
-        // Return mock data as fallback
         return generateMockHistory(timeRange, 50000 + Math.random() * 10000);
     }
 }
@@ -93,30 +123,25 @@ export async function fetchCryptoHistory(cryptoId, timeRange = '30D') {
  */
 export async function fetchCurrencyHistory(currencyPair, timeRange = '30D') {
     const cacheKey = `currency_${currencyPair}_${timeRange}`;
-    const cached = getCachedData(cacheKey);
-    if (cached) return cached;
+    return getOrCreateRequest(cacheKey, async () => {
+        const baseRates = {
+            'USD/EUR': 1.09,
+            'USD/GBP': 1.27,
+            'USD/JPY': 0.0067,
+            'USD/BRL': 0.20,
+            'USD/CAD': 0.74,
+            'USD/AUD': 0.65,
+            'USD/CHF': 1.13,
+            'USD/CNY': 0.14,
+            'USD/INR': 0.012,
+            'USD/MXN': 0.059,
+            'USD/KRW': 0.00075,
+            'USD/ARS': 0.0011
+        };
 
-    // Base rates for different currencies
-    const baseRates = {
-        'USD/EUR': 1.09,
-        'USD/GBP': 1.27,
-        'USD/JPY': 0.0067,
-        'USD/BRL': 0.20,
-        'USD/CAD': 0.74,
-        'USD/AUD': 0.65,
-        'USD/CHF': 1.13,
-        'USD/CNY': 0.14,
-        'USD/INR': 0.012,
-        'USD/MXN': 0.059,
-        'USD/KRW': 0.00075,
-        'USD/ARS': 0.0011
-    };
-
-    const baseRate = baseRates[currencyPair] || 1;
-    const data = generateMockHistory(timeRange, baseRate, 0.05);
-
-    setCachedData(cacheKey, data);
-    return data;
+        const baseRate = baseRates[currencyPair] || 1;
+        return generateMockHistory(timeRange, baseRate, 0.05);
+    });
 }
 
 /**
@@ -124,27 +149,23 @@ export async function fetchCurrencyHistory(currencyPair, timeRange = '30D') {
  */
 export async function fetchCommodityHistory(symbol, timeRange = '30D') {
     const cacheKey = `commodity_${symbol}_${timeRange}`;
-    const cached = getCachedData(cacheKey);
-    if (cached) return cached;
+    return getOrCreateRequest(cacheKey, async () => {
+        const basePrices = {
+            XAU: 2050,
+            XAG: 25.50,
+            WTI: 78.50,
+            NG: 2.85,
+            HG: 3.85,
+            XPT: 920,
+            XPD: 1050,
+            ZC: 450,
+            ZW: 620,
+            KC: 185
+        };
 
-    const basePrices = {
-        XAU: 2050,
-        XAG: 25.50,
-        WTI: 78.50,
-        NG: 2.85,
-        HG: 3.85,
-        XPT: 920,
-        XPD: 1050,
-        ZC: 450,
-        ZW: 620,
-        KC: 185
-    };
-
-    const basePrice = basePrices[symbol] || 100;
-    const data = generateMockHistory(timeRange, basePrice, 0.15);
-
-    setCachedData(cacheKey, data);
-    return data;
+        const basePrice = basePrices[symbol] || 100;
+        return generateMockHistory(timeRange, basePrice, 0.15);
+    });
 }
 
 /**
@@ -187,6 +208,8 @@ function generateMockHistory(timeRange, basePrice, volatility = 0.1) {
  * Clear all cached historical data
  */
 export function clearHistoryCache() {
+    memoryCache.clear();
+    pendingRequests.clear();
     Object.keys(localStorage)
         .filter(key => key.startsWith(CACHE_PREFIX))
         .forEach(key => localStorage.removeItem(key));

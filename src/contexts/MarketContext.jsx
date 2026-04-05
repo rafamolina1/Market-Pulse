@@ -24,6 +24,16 @@ const DEFAULT_PREFERENCES = {
     commodities: ['XAU', 'XAG', 'WTI', 'NG'],
 };
 
+const mergeByKey = (previousItems, updates, key) => {
+    if (!updates.length) return previousItems;
+
+    const updatesMap = new Map(updates.map((item) => [item[key], item]));
+
+    return previousItems.map((item) => (
+        updatesMap.has(item[key]) ? { ...item, ...updatesMap.get(item[key]) } : item
+    ));
+};
+
 export const MarketProvider = ({ children }) => {
     const [currencies, setCurrencies] = useState([]);
     const [cryptos, setCryptos] = useState([]);
@@ -51,6 +61,7 @@ export const MarketProvider = ({ children }) => {
         currency: null,
         commodity: null
     });
+    const statusIntervalRef = useRef(null);
 
     const fetchAllData = useCallback(async () => {
         try {
@@ -73,24 +84,26 @@ export const MarketProvider = ({ children }) => {
     }, []);
 
     const setupWebSockets = useCallback(() => {
+        if (statusIntervalRef.current) {
+            clearInterval(statusIntervalRef.current);
+            statusIntervalRef.current = null;
+        }
+
         Object.values(wsConnections.current).forEach(ws => {
             if (ws?.close) ws.close();
+        });
+
+        setWsStatus({
+            crypto: 'disconnected',
+            currency: 'disconnected',
+            commodity: 'disconnected'
         });
 
         if (preferences.currencies.length > 0) {
             wsConnections.current.currency = createCurrencyWebSocket(
                 preferences.currencies,
                 (data) => {
-                    setCurrencies(prev => {
-                        const newCurrencies = [...prev];
-                        data.forEach(updatedItem => {
-                            const index = newCurrencies.findIndex(c => c.target === updatedItem.target);
-                            if (index !== -1) {
-                                newCurrencies[index] = { ...newCurrencies[index], ...updatedItem };
-                            }
-                        });
-                        return newCurrencies;
-                    });
+                    setCurrencies(prev => mergeByKey(prev, data, 'target'));
                     setLastUpdate(new Date());
                 }
             );
@@ -101,42 +114,22 @@ export const MarketProvider = ({ children }) => {
             wsConnections.current.crypto = createCryptoWebSocket(
                 preferences.cryptos,
                 (data) => {
-                    setCryptos(prev => {
-                        const newCryptos = [...prev];
-                        data.forEach(updatedItem => {
-                            const index = newCryptos.findIndex(c => c.id === updatedItem.id);
-                            if (index !== -1) {
-                                newCryptos[index] = { ...newCryptos[index], ...updatedItem };
-                            }
-                        });
-                        return newCryptos;
-                    });
+                    setCryptos(prev => mergeByKey(prev, data, 'id'));
                     setLastUpdate(new Date());
                 }
             );
 
-            const checkStatus = setInterval(() => {
+            statusIntervalRef.current = setInterval(() => {
                 const status = wsConnections.current.crypto?.getStatus?.() || 'connected';
                 setWsStatus(prev => ({ ...prev, crypto: status }));
             }, 1000);
-
-            return () => clearInterval(checkStatus);
         }
 
         if (preferences.commodities.length > 0) {
             wsConnections.current.commodity = createCommodityWebSocket(
                 preferences.commodities,
                 (data) => {
-                    setCommodities(prev => {
-                        const newCommodities = [...prev];
-                        data.forEach(updatedItem => {
-                            const index = newCommodities.findIndex(c => c.symbol === updatedItem.symbol);
-                            if (index !== -1) {
-                                newCommodities[index] = { ...newCommodities[index], ...updatedItem };
-                            }
-                        });
-                        return newCommodities;
-                    });
+                    setCommodities(prev => mergeByKey(prev, data, 'symbol'));
                     setLastUpdate(new Date());
                 }
             );
@@ -157,6 +150,10 @@ export const MarketProvider = ({ children }) => {
 
         return () => {
             clearTimeout(timer);
+            if (statusIntervalRef.current) {
+                clearInterval(statusIntervalRef.current);
+                statusIntervalRef.current = null;
+            }
             Object.values(wsConnections.current).forEach(ws => {
                 if (ws?.close) ws.close();
             });

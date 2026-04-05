@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
     getPortfolio,
     addAsset as addAssetToPortfolio,
@@ -25,31 +25,38 @@ export const PortfolioProvider = ({ children }) => {
         localStorage.setItem('marketpulse-portfolio-currency', displayCurrency);
     }, [displayCurrency]);
 
-    const addAsset = (assetData) => {
+    const addAsset = useCallback((assetData) => {
         const newPortfolio = addAssetToPortfolio(portfolio, assetData);
         setPortfolio(newPortfolio);
-    };
+    }, [portfolio]);
 
-    const updateAsset = (id, assetData) => {
+    const updateAsset = useCallback((id, assetData) => {
         const newPortfolio = updateAssetInPortfolio(portfolio, id, assetData);
         setPortfolio(newPortfolio);
-    };
+    }, [portfolio]);
 
-    const removeAsset = (id) => {
+    const removeAsset = useCallback((id) => {
         const newPortfolio = removeAssetFromPortfolio(portfolio, id);
         setPortfolio(newPortfolio);
-    };
+    }, [portfolio]);
 
+    const value = useMemo(() => ({
+        portfolio,
+        displayCurrency,
+        setDisplayCurrency,
+        addAsset,
+        updateAsset,
+        removeAsset
+    }), [
+        portfolio,
+        displayCurrency,
+        addAsset,
+        updateAsset,
+        removeAsset
+    ]);
 
     return (
-        <PortfolioContext.Provider value={{
-            portfolio,
-            displayCurrency,
-            setDisplayCurrency,
-            addAsset,
-            updateAsset,
-            removeAsset
-        }}>
+        <PortfolioContext.Provider value={value}>
             {children}
         </PortfolioContext.Provider>
     );

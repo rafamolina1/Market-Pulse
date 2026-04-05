@@ -11,8 +11,9 @@ export default defineConfig({
       manifest: {
         name: 'MarketPulse - Portfolio Tracker',
         short_name: 'MarketPulse',
-        description: 'Track your global financial portfolio in real-time',
-        theme_color: '#1a1a1a',
+        description: 'Track currencies, crypto and commodities in a polished real-time dashboard',
+        theme_color: '#09111f',
+        background_color: '#09111f',
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -28,6 +29,18 @@ export default defineConfig({
       }
     })
   ],
+  build: {
+    target: 'es2020',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom'],
+          charts: ['chart.js', 'react-chartjs-2'],
+          i18n: ['i18next', 'react-i18next']
+        }
+      }
+    }
+  },
   server: {
     port: 5173,
     open: true

@@ -1,8 +1,18 @@
 {
     "header": {
         "title": "MarketPulse",
-        "subtitle": "Dashboard Financeiro - Moedas, Criptomoedas & Commodities",
-        "subtitleRealtime": "Dashboard Financeiro em Tempo Real"
+        "subtitle": "Dashboard de Mercado para Moedas, Cripto e Commodities",
+        "subtitleRealtime": "Dashboard de Inteligência de Mercado em Tempo Real",
+        "kicker": "Portfolio Dashboard",
+        "description": "Acompanhe ativos globais em uma interface pensada para leitura rápida, mais contexto e acabamento de produto.",
+        "statusRealtime": "Fluxo em tempo real",
+        "statusDelayed": "Snapshot estável",
+        "metrics": {
+            "trackedAssets": "Ativos monitorados",
+            "liveStreams": "Streams ativos",
+            "status": "Modo",
+            "lastSync": "Última atualização às {{time}}"
+        }
     },
     "buttons": {
         "settings": "Configurar",
@@ -19,9 +29,12 @@
         "exportPDF": "Baixar PDF"
     },
     "sections": {
-        "currencies": "Moedas Internacionais",
-        "cryptos": "Criptomoedas",
-        "commodities": "Commodities"
+        "currencies": "Panorama FX",
+        "cryptos": "Mercado Cripto",
+        "commodities": "Commodities Macro",
+        "currencyDescription": "Principais pares cambiais com leitura rápida de direção e contexto de sessão.",
+        "cryptoDescription": "Ativos digitais com foco em preço, market cap e tom intradiário.",
+        "commodityDescription": "Energia e metais para ampliar a leitura macro do painel."
     },
     "settings": {
         "title": "Configurações do Dashboard",
@@ -30,20 +43,27 @@
         "dark": "Dark",
         "light": "Light",
         "portuguese": "Português",
-        "english": "English"
+        "english": "English",
+        "savePreferences": "Salvar preferências"
     },
     "converter": {
         "title": "Conversor de Moedas",
+        "description": "Converta moedas principais usando as taxas já carregadas no dashboard.",
         "amount": "Valor",
         "from": "De",
         "to": "Para",
         "rate": "Taxa de Câmbio",
         "result": "Valor Convertido",
-        "enterAmount": "Digite o valor"
+        "enterAmount": "Digite o valor",
+        "swap": "Inverter moedas"
     },
     "chart": {
         "title": "Gráfico Histórico",
         "loading": "Carregando dados...",
+        "subtitle": "Preço histórico do ativo",
+        "loadingRange": "Carregando dados de {{range}}...",
+        "openAsset": "Abrir gráfico de {{asset}}",
+        "rangeSelector": "Selecionar intervalo histórico",
         "periods": {
             "1D": "1 Dia",
             "7D": "7 Dias",
@@ -60,6 +80,37 @@
         "loading": "Carregando...",
         "error": "Erro ao carregar dados",
         "noData": "Sem dados disponíveis"
+    },
+    "empty": {
+        "eyebrow": "Dashboard vazio",
+        "title": "Escolha os ativos que vão compor sua vitrine",
+        "description": "Abra as configurações e monte um dashboard mais convincente para o seu portfólio com moedas, cripto e commodities.",
+        "cta": "Abrir configurações"
+    },
+    "project": {
+        "eyebrow": "Sobre o projeto",
+        "title": "Uma peça de portfólio pensada para parecer mais produto real",
+        "description": "Além dos dados de mercado, o app destaca design tokens, lazy loading, internacionalização, estado global e decisões de interface voltadas para leitura rápida e maior maturidade visual.",
+        "highlight1": {
+            "label": "Foco",
+            "value": "Clareza + dados vivos",
+            "description": "Atualizações em tempo real, feedback visual e leitura mais clara do que mudou."
+        },
+        "highlight2": {
+            "label": "Arquitetura",
+            "value": "Contexts + services",
+            "description": "Separação mais limpa entre interface, regra de negócio e fluxo de dados."
+        },
+        "highlight3": {
+            "label": "Entrega",
+            "value": "PWA pronta",
+            "description": "Manifesto, installability e build de produção validado."
+        }
+    },
+    "footer": {
+        "title": "MarketPulse",
+        "description": "Projeto de portfólio em React focado em dados de mercado, acabamento de produto e interface consciente de performance.",
+        "signature": "Desenvolvido por Rafael Molina"
     },
     "portfolio": {
         "title": "Meu Portfólio",
@@ -86,7 +137,43 @@
         "displayCurrency": "Exibir em:",
         "totalAllocated": "Total Alocado",
         "currentValue": "Valor Atual",
-        "allocation": "Alocação"
+        "allocation": "Alocação",
+        "currencyHelper": "Quantas unidades de {{asset}} por 1 USD",
+        "exportCsvSuccess": "CSV exportado com sucesso.",
+        "exportPdfSuccess": "PDF exportado com sucesso.",
+        "exportError": "Não foi possível exportar o relatório agora."
+    },
+    "errorBoundary": {
+        "title": "Algo deu errado.",
+        "description": "A aplicação encontrou um erro inesperado. Você pode recarregar a página ou resetar apenas os dados do MarketPulse.",
+        "details": "Detalhes do erro",
+        "reload": "Recarregar página",
+        "reset": "Resetar MarketPulse",
+        "resetTitle": "Limpar dados do MarketPulse e recarregar"
+    },
+    "cards": {
+        "currency": {
+            "title": "Moeda",
+            "metaPrimaryLabel": "Leitura de mercado",
+            "metaPrimaryPositive": "Fluxo mais comprador",
+            "metaPrimaryNegative": "Movimento defensivo",
+            "metaSecondaryLabel": "Sessão",
+            "metaSecondaryPositive": "Viés de alta",
+            "metaSecondaryNegative": "Atenção à resistência"
+        },
+        "crypto": {
+            "metaPrimaryLabel": "Market cap",
+            "metaSecondaryLabel": "Momentum",
+            "metaSecondaryPositive": "Compradores ativos",
+            "metaSecondaryNegative": "Perdendo força"
+        },
+        "commodity": {
+            "unitPrefix": "por",
+            "metaPrimaryLabel": "Variação 24h",
+            "metaSecondaryLabel": "Tom macro",
+            "metaSecondaryPositive": "Oferta mais apertada",
+            "metaSecondaryNegative": "Demanda mais fraca"
+        }
     },
     "alerts": {
         "title": "Alertas de Preço",

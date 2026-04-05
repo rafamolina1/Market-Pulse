@@ -25,6 +25,7 @@ const PortfolioModal = ({ isOpen, onClose }) => {
 
     const [isAdding, setIsAdding] = useState(false);
     const [editingId, setEditingId] = useState(null);
+    const [exportFeedback, setExportFeedback] = useState(null);
 
     const [formData, setFormData] = useState({
         type: '',
@@ -44,6 +45,16 @@ const PortfolioModal = ({ isOpen, onClose }) => {
             }, 100);
         }
     }, [isAdding, editingId]);
+
+    useEffect(() => {
+        if (!exportFeedback) return undefined;
+
+        const timer = window.setTimeout(() => {
+            setExportFeedback(null);
+        }, 2600);
+
+        return () => window.clearTimeout(timer);
+    }, [exportFeedback]);
 
 
 
@@ -200,12 +211,18 @@ const PortfolioModal = ({ isOpen, onClose }) => {
         return calculatePortfolioValue(portfolio, currentPrices);
     }, [portfolio, currentPrices]);
 
-    const handleExport = (type) => {
+    const handleExport = async (type) => {
         const brlRate = getBrlRate();
+        let result;
+
         if (type === 'csv') {
-            exportToCSV(portfolio, currentPrices, displayCurrency, brlRate);
+            result = exportToCSV(portfolio, currentPrices, displayCurrency, brlRate);
         } else {
-            exportToPDF(portfolio, currentPrices, displayCurrency, brlRate);
+            result = await exportToPDF(portfolio, currentPrices, displayCurrency, brlRate);
+        }
+
+        if (result) {
+            setExportFeedback(result);
         }
     };
 
@@ -253,6 +270,11 @@ const PortfolioModal = ({ isOpen, onClose }) => {
                 </div>
 
                 <div className="modal-body portfolio-body">
+                    {exportFeedback && (
+                        <div className={`portfolio-feedback ${exportFeedback.ok ? 'success' : 'error'}`}>
+                            {exportFeedback.message}
+                        </div>
+                    )}
                     <div className="portfolio-summary">
                         <div className="summary-card">
                             <div className="summary-label">{t('portfolio.totalValue')}</div>
@@ -345,7 +367,7 @@ const PortfolioModal = ({ isOpen, onClose }) => {
                                         />
                                         {formData.type === 'currency' && formData.assetId && (
                                             <small className="helper-text">
-                                                How many {formData.assetId.toUpperCase()} per 1 USD
+                                                {t('portfolio.currencyHelper', { asset: formData.assetId.toUpperCase() })}
                                             </small>
                                         )}
                                     </div>

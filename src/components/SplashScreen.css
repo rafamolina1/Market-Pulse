@@ -1,16 +1,15 @@
 .splash-screen {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: #0a0a0a;
-    /* Deep dark background */
+    inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    transition: opacity 0.5s ease-out;
+    background:
+        radial-gradient(circle at top, rgba(255, 135, 67, 0.24), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(105, 210, 198, 0.14), transparent 25%),
+        linear-gradient(180deg, #08111f 0%, #09111f 100%);
+    transition: opacity 0.35s ease-out;
 }
 
 .splash-screen.fade-out {
@@ -24,59 +23,49 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    padding: 2rem;
+}
+
+.splash-logo-shell {
+    padding: 1rem;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 178, 107, 0.18);
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28);
 }
 
 .splash-logo {
-    width: 80px;
-    height: 80px;
-    border-radius: 16px;
-    /* Smooth corners matching PWA icon style */
-    box-shadow: 0 0 20px rgba(255, 127, 62, 0.4);
-    animation: pulse 2s infinite ease-in-out;
+    width: 76px;
+    height: 76px;
+    border-radius: 18px;
+    box-shadow: 0 0 24px rgba(255, 127, 62, 0.24);
 }
 
 .splash-title {
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: clamp(2.75rem, 8vw, 4.8rem);
+    font-weight: 800;
     color: #ffffff;
     margin: 0;
-    letter-spacing: -1px;
+    letter-spacing: -0.06em;
     font-family: 'Outfit', sans-serif;
+    line-height: 0.94;
 }
 
 .splash-highlight {
-    color: #FF7F3E;
-    /* TRON Orange */
-    background: linear-gradient(135deg, #FF7F3E 0%, #FFA06B 100%);
+    background: linear-gradient(135deg, #ffdfbf 0%, #ffb26b 45%, #ff8743 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .splash-subtitle {
-    color: #888;
+    color: #c6d1df;
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: 500;
     margin: 0;
+    max-width: 28rem;
     opacity: 0;
-    animation: slideUp 0.8s ease-out 0.5s forwards;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 20px rgba(255, 127, 62, 0.2);
-    }
-
-    50% {
-        transform: scale(1.05);
-        box-shadow: 0 0 30px rgba(255, 127, 62, 0.5);
-    }
-
-    100% {
-        transform: scale(1);
-        box-shadow: 0 0 20px rgba(255, 127, 62, 0.2);
-    }
+    animation: slideUp 0.55s ease-out 0.12s forwards;
 }
 
 @keyframes slideUp {

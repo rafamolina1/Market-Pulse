@@ -1,8 +1,18 @@
 {
     "header": {
         "title": "MarketPulse",
-        "subtitle": "Financial Dashboard - Currencies, Cryptos & Commodities",
-        "subtitleRealtime": "Real-time Financial Dashboard"
+        "subtitle": "Market Dashboard for Currencies, Crypto and Commodities",
+        "subtitleRealtime": "Real-time Market Intelligence Dashboard",
+        "kicker": "Portfolio Dashboard",
+        "description": "Track global assets in an interface designed for fast scanning, stronger decision context and a more polished product feel.",
+        "statusRealtime": "Real-time feed",
+        "statusDelayed": "Stable snapshot",
+        "metrics": {
+            "trackedAssets": "Tracked assets",
+            "liveStreams": "Live streams",
+            "status": "Mode",
+            "lastSync": "Last sync at {{time}}"
+        }
     },
     "buttons": {
         "settings": "Settings",
@@ -19,9 +29,12 @@
         "exportPDF": "Download PDF"
     },
     "sections": {
-        "currencies": "International Currencies",
-        "cryptos": "Cryptocurrencies",
-        "commodities": "Commodities"
+        "currencies": "FX Overview",
+        "cryptos": "Crypto Market",
+        "commodities": "Macro Commodities",
+        "currencyDescription": "Major FX pairs with quick direction reading and session context.",
+        "cryptoDescription": "Digital assets with emphasis on price action, market cap and intraday tone.",
+        "commodityDescription": "Energy and metals exposure for a broader macro reading."
     },
     "settings": {
         "title": "Dashboard Settings",
@@ -30,20 +43,27 @@
         "dark": "Dark",
         "light": "Light",
         "portuguese": "Português",
-        "english": "English"
+        "english": "English",
+        "savePreferences": "Save preferences"
     },
     "converter": {
         "title": "Currency Converter",
+        "description": "Convert major currencies using the rates already loaded in the dashboard.",
         "amount": "Amount",
         "from": "From",
         "to": "To",
         "rate": "Exchange Rate",
         "result": "Converted Amount",
-        "enterAmount": "Enter amount"
+        "enterAmount": "Enter amount",
+        "swap": "Swap currencies"
     },
     "chart": {
         "title": "Historical Chart",
         "loading": "Loading data...",
+        "subtitle": "Historical price chart",
+        "loadingRange": "Loading {{range}} data...",
+        "openAsset": "Open chart for {{asset}}",
+        "rangeSelector": "Select historical range",
         "periods": {
             "1D": "1 Day",
             "7D": "7 Days",
@@ -60,6 +80,37 @@
         "loading": "Loading...",
         "error": "Error loading data",
         "noData": "No data available"
+    },
+    "empty": {
+        "eyebrow": "Empty dashboard",
+        "title": "Choose the assets that will shape your showcase",
+        "description": "Open settings and build a more convincing portfolio dashboard with currencies, crypto and commodities.",
+        "cta": "Open settings"
+    },
+    "project": {
+        "eyebrow": "About the project",
+        "title": "A portfolio piece designed to feel closer to a real product",
+        "description": "Beyond market data, this app highlights design tokens, lazy loading, internationalization, global state and UI decisions meant to improve scanning quality and perceived product maturity.",
+        "highlight1": {
+            "label": "Focus",
+            "value": "Clarity + live data",
+            "description": "Real-time updates, visual feedback and a clearer reading of what changed."
+        },
+        "highlight2": {
+            "label": "Architecture",
+            "value": "Contexts + services",
+            "description": "A cleaner split between interface, business logic and data flow."
+        },
+        "highlight3": {
+            "label": "Delivery",
+            "value": "PWA-ready",
+            "description": "Manifest, installability and production build validation."
+        }
+    },
+    "footer": {
+        "title": "MarketPulse",
+        "description": "React portfolio project focused on market data, product polish and performance-aware UI.",
+        "signature": "Built by Rafael Molina"
     },
     "portfolio": {
         "title": "My Portfolio",
@@ -86,7 +137,43 @@
         "displayCurrency": "Display in:",
         "totalAllocated": "Total Allocated",
         "currentValue": "Current Value",
-        "allocation": "Allocation"
+        "allocation": "Allocation",
+        "currencyHelper": "How many {{asset}} per 1 USD",
+        "exportCsvSuccess": "CSV exported successfully.",
+        "exportPdfSuccess": "PDF exported successfully.",
+        "exportError": "Unable to export the report right now."
+    },
+    "errorBoundary": {
+        "title": "Something went wrong.",
+        "description": "The application hit an unexpected error. You can reload the page or reset only MarketPulse data.",
+        "details": "Error details",
+        "reload": "Reload page",
+        "reset": "Reset MarketPulse",
+        "resetTitle": "Clear MarketPulse data and reload"
+    },
+    "cards": {
+        "currency": {
+            "title": "Currency",
+            "metaPrimaryLabel": "Market pulse",
+            "metaPrimaryPositive": "Risk-on flow",
+            "metaPrimaryNegative": "Defensive move",
+            "metaSecondaryLabel": "Session",
+            "metaSecondaryPositive": "Bullish bias",
+            "metaSecondaryNegative": "Watch resistance"
+        },
+        "crypto": {
+            "metaPrimaryLabel": "Market cap",
+            "metaSecondaryLabel": "Momentum",
+            "metaSecondaryPositive": "Buyers active",
+            "metaSecondaryNegative": "Cooling down"
+        },
+        "commodity": {
+            "unitPrefix": "per",
+            "metaPrimaryLabel": "24h change",
+            "metaSecondaryLabel": "Macro tone",
+            "metaSecondaryPositive": "Supply tight",
+            "metaSecondaryNegative": "Demand soft"
+        }
     },
     "alerts": {
         "title": "Price Alerts",

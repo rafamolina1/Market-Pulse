@@ -1,34 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMarket } from '../contexts/MarketContext';
 import { AVAILABLE_CURRENCIES } from '../services/currencyService';
+import { formatNumber } from '../utils/formatters';
 import './CurrencyConverter.css';
 
 const CurrencyConverter = ({ isOpen, onClose }) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { currencies: currentRates } = useMarket();
     const [fromCurrency, setFromCurrency] = useState('usd');
     const [toCurrency, setToCurrency] = useState('eur');
     const [amount, setAmount] = useState(100);
-
-    const rates = currentRates.length > 0 ? currentRates : [
-        { target: 'USD', rate: 1, pair: 'USD/USD' },
-        { target: 'BRL', rate: 5.0, pair: 'USD/BRL' },
-        { target: 'EUR', rate: 0.92, pair: 'USD/EUR' }
-    ];
     const [convertedAmount, setConvertedAmount] = useState(0);
     const [exchangeRate, setExchangeRate] = useState(0);
 
-    const allCurrencies = [
+    const allCurrencies = useMemo(() => [
         { target: 'usd', name: 'US Dollar', pair: 'USD', flag: '🇺🇸' },
         ...AVAILABLE_CURRENCIES.map(c => ({
             ...c,
             pair: c.target.toUpperCase()
         }))
-    ];
+    ], []);
 
     useEffect(() => {
-        if (isOpen && amount && currentRates) {
+        if (isOpen && currentRates) {
             calculateConversion();
         }
     }, [amount, fromCurrency, toCurrency, currentRates, isOpen]);
@@ -45,7 +40,7 @@ const CurrencyConverter = ({ isOpen, onClose }) => {
     }, [isOpen, onClose]);
 
     const calculateConversion = () => {
-        if (!currentRates || currentRates.length === 0) {
+        if (!currentRates || currentRates.length === 0 || Number.isNaN(amount)) {
             setConvertedAmount(0);
             setExchangeRate(0);
             return;
@@ -96,28 +91,37 @@ const CurrencyConverter = ({ isOpen, onClose }) => {
 
     return (
         <div className="converter-overlay" onClick={onClose}>
-            <div className="converter-modal" onClick={(e) => e.stopPropagation()}>
+            <div
+                className="converter-modal"
+                onClick={(e) => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="converter-title"
+            >
                 <div className="converter-header">
-                    <h2 className="converter-title">💱 Currency Converter</h2>
-                    <button className="converter-close" onClick={onClose}>✕</button>
+                    <div>
+                        <h2 id="converter-title" className="converter-title">💱 {t('converter.title')}</h2>
+                        <p className="converter-subtitle">{t('converter.description')}</p>
+                    </div>
+                    <button className="converter-close" onClick={onClose} aria-label={t('buttons.close')}>✕</button>
                 </div>
 
                 <div className="converter-body">
                     <div className="converter-section">
-                        <label className="converter-label">Amount</label>
+                        <label className="converter-label">{t('converter.amount')}</label>
                         <input
                             type="number"
                             className="converter-input"
                             value={amount}
                             onChange={handleAmountChange}
-                            placeholder="Enter amount"
+                            placeholder={t('converter.enterAmount')}
                             min="0"
                             step="0.01"
                         />
                     </div>
 
                     <div className="converter-section">
-                        <label className="converter-label">From</label>
+                        <label className="converter-label">{t('converter.from')}</label>
                         <select
                             className="converter-select"
                             value={fromCurrency}
@@ -132,13 +136,18 @@ const CurrencyConverter = ({ isOpen, onClose }) => {
                     </div>
 
                     <div className="converter-swap-container">
-                        <button className="converter-swap-btn" onClick={handleSwap}>
+                        <button
+                            className="converter-swap-btn"
+                            onClick={handleSwap}
+                            aria-label={t('converter.swap')}
+                            title={t('converter.swap')}
+                        >
                             🔄
                         </button>
                     </div>
 
                     <div className="converter-section">
-                        <label className="converter-label">To</label>
+                        <label className="converter-label">{t('converter.to')}</label>
                         <select
                             className="converter-select"
                             value={toCurrency}
@@ -154,20 +163,17 @@ const CurrencyConverter = ({ isOpen, onClose }) => {
 
                     {exchangeRate > 0 && (
                         <div className="converter-rate">
-                            <span className="rate-label">Exchange Rate:</span>
+                            <span className="rate-label">{t('converter.rate')}</span>
                             <span className="rate-value">
-                                1 {getCurrencyInfo(fromCurrency)?.pair} = {exchangeRate.toFixed(6)} {getCurrencyInfo(toCurrency)?.pair}
+                                1 {getCurrencyInfo(fromCurrency)?.pair} = {formatNumber(exchangeRate, 6, i18n.language)} {getCurrencyInfo(toCurrency)?.pair}
                             </span>
                         </div>
                     )}
 
                     <div className="converter-result">
-                        <div className="result-label">Converted Amount</div>
+                        <div className="result-label">{t('converter.result')}</div>
                         <div className="result-value">
-                            {getCurrencyInfo(toCurrency)?.flag} {convertedAmount.toLocaleString('en-US', {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2
-                            })} {getCurrencyInfo(toCurrency)?.pair}
+                            {getCurrencyInfo(toCurrency)?.flag} {formatNumber(convertedAmount, 2, i18n.language)} {getCurrencyInfo(toCurrency)?.pair}
                         </div>
                     </div>
                 </div>

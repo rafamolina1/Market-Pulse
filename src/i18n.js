@@ -3,8 +3,12 @@ import { initReactI18next } from 'react-i18next';
 import ptBR from './locales/pt-BR.json';
 import enUS from './locales/en-US.json';
 
-// Get stored language or default to Portuguese
-const storedLanguage = localStorage.getItem('marketpulse-language') || 'pt-BR';
+const getStoredLanguage = () => {
+    if (typeof window === 'undefined') return 'pt-BR';
+    return localStorage.getItem('marketpulse-language') || 'pt-BR';
+};
+
+const storedLanguage = getStoredLanguage();
 
 i18n
     .use(initReactI18next)
@@ -24,9 +28,15 @@ i18n
         }
     });
 
-// Save language to localStorage whenever it changes
 i18n.on('languageChanged', (lng) => {
-    localStorage.setItem('marketpulse-language', lng);
+    if (typeof window !== 'undefined') {
+        localStorage.setItem('marketpulse-language', lng);
+        document.documentElement.lang = lng;
+    }
 });
+
+if (typeof document !== 'undefined') {
+    document.documentElement.lang = storedLanguage;
+}
 
 export default i18n;
